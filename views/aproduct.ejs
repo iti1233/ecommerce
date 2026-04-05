@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* ---------- GLOBAL ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      display: flex;
+      min-height: 100vh;
+      background: #f4f6f9;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+    .sidebar {
+      width: 250px;
+      background: #111827;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      padding: 20px 0;
+      transition: 0.3s ease;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+
+    .sidebar a {
+      text-decoration: none;
+      color: #cbd5e1;
+      padding: 12px 20px;
+      display: block;
+      transition: 0.3s;
+      font-size: 16px;
+    }
+
+    .sidebar a:hover {
+      background: #2563eb;
+      color: #fff;
+      padding-left: 30px;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .main {
+      flex: 1;
+      padding: 20px;
+      transition: margin-left 0.3s ease;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .toggle-btn {
+      font-size: 20px;
+      cursor: pointer;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 8px 12px;
+      transition: 0.3s;
+    }
+
+    .toggle-btn:hover {
+      background: #1e40af;
+    }
+
+    /* ---------- DASHBOARD CARDS ---------- */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      font-size: 18px;
+      color: #2563eb;
+    }
+
+    .card p {
+      font-size: 15px;
+      color: #555;
+    }
+
+    /* ---------- FORM STYLING ---------- */
+    form {
+      background: #fff;
+      padding: 25px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    form label {
+      display: block;
+      margin-bottom: 6px;
+      color: #555;
+      font-weight: 600;
+    }
+
+    form input,
+    form select,
+    form textarea {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+      margin-bottom: 15px;
+      transition: all 0.3s ease;
+    }
+
+    form input:focus,
+    form select:focus,
+    form textarea:focus {
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 4px rgba(37,99,235,0.4);
+    }
+
+    form textarea {
+      resize: none;
+      height: 100px;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background-color: #2563eb;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: #1e40af;
+    }
+
+    /* ---------- COLLAPSE SIDEBAR ---------- */
+    .collapsed {
+      width: 70px;
+    }
+
+    .collapsed h2 {
+      display: none;
+    }
+
+    .collapsed a {
+      text-align: center;
+      padding: 12px 0;
+    }
+
+    .collapsed a:hover {
+      padding-left: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <h2>Admin</h2>
+    <a href="vuser">👤 Users</a>
+<a href="dash">📊 Dashboard</a>
+
+    <a href="venquiry">📩 Enquiries</a>
+    <a href="aproduct">📦 Products</a>
+    <a href="vproduct">🛍️ View product</a>
+    <a href="vorders">📑 View order</a>
+    <a href="setting">⚙ Settings</a>
+    <a href="alogout">🚪 Logout</a>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <div class="topbar">
+      <button class="toggle-btn" id="toggleBtn">☰</button>
+      <h1>Dashboard</h1>
+      <div>🔔 Notifications</div>
+    </div>
+
+    <!-- Add Product Form -->
+    <form action="productprocess" method="Post" enctype="multipart/form-data">
+      <label for="product-id">Product ID</label>
+      <input type="text" id="product-id" name="productid" placeholder="Enter product ID" required>
+
+      <label for="product-name">Product Name</label>
+      <input type="text" id="product-name" name="product_name" placeholder="Enter product name" required>
+
+      <label for="description">Description</label>
+      <textarea id="description" name="description" placeholder="Enter product details" required></textarea>
+
+      <label for="price">Price (₹)</label>
+      <input type="number" id="price" name="price" placeholder="Enter price" required>
+
+      <label for="qty">Quantity</label>
+      <input type="number" id="qty" name="qty" placeholder="Enter quantity" required>
+
+      <label for="category">Category</label>
+      <select id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="Women wear">Women</option>
+        <option value="MENs">Mens</option>
+        <option value="Kids">Kids</option>
+        <option value="Cosmetic">Cosmetic</option>
+<option value="Accessories">Accessories</option>
+      </select>
+
+      <label for="product-image">Product Image</label>
+      <input type="file" id="product-image" name="product_image" accept="image/*" required>
+
+      <button type="submit" class="btn">Add Product</button>
+    </form>
+  </div>
+
+  <script>
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('collapsed');
+    });
+  </script>
+</body>
+</html>

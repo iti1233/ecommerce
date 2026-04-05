@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Order Successful</title>
+  <style>
+    :root{
+      --bg:#0f1724;
+      --card:#0b1220;
+      --accent:#22c55e; /* green */
+      --glass: rgba(255,255,255,0.06);
+      --muted: rgba(255,255,255,0.7);
+      --round: 18px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:
+        radial-gradient(1200px 600px at 10% 10%, rgba(34,197,94,0.06), transparent 12%),
+        radial-gradient(1000px 500px at 90% 90%, rgba(34,197,94,0.03), transparent 12%),
+        var(--bg);
+      color: #e6eef8;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+    }
+
+    .card{
+      width:100%;
+      max-width:720px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius: calc(var(--round) + 6px);
+      padding:40px;
+      box-shadow: 0 10px 30px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+      display:flex;
+      gap:28px;
+      align-items:center;
+      position:relative;
+      overflow:visible;
+    }
+
+    .left{
+      width:220px;
+      min-width:160px;
+      height:220px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+
+    /* circle / glass */
+    .orb{
+      width:180px;
+      height:180px;
+      border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), rgba(255,255,255,0.02) 25%, transparent 40%),
+                  linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      transform: translateY(0);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 10px 30px rgba(34,197,94,0.06), 0 1px 0 rgba(255,255,255,0.02) inset;
+    }
+
+    /* animated ring */
+    .ring{
+      position:absolute;
+      width:220px;
+      height:220px;
+      left:-10px;
+      top:-10px;
+      pointer-events:none;
+      animation: ring-rotate 6s linear infinite;
+      opacity:0.9;
+      filter: blur(6px);
+    }
+    @keyframes ring-rotate{
+      from{transform:rotate(0deg)}
+      to{transform:rotate(360deg)}
+    }
+
+    /* Checkmark svg animation */
+    .check-svg{ width:120px; height:120px; display:block; }
+    .check-circle { fill: none; stroke: rgba(34,197,94,0.12); stroke-width:10; }
+    .check-path { fill:none; stroke:var(--accent); stroke-width:9; stroke-linecap:round; stroke-linejoin:round;
+                  stroke-dasharray: 140; stroke-dashoffset: 140; animation: dash 0.7s ease forwards 0.45s; }
+    @keyframes dash {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* confetti pieces anchored near left */
+    .confetti-canvas{
+      position:absolute;
+      left:0;
+      top:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:4;
+    }
+
+    .right{
+      flex:1;
+      padding-right:6px;
+    }
+    h1{
+      margin:0 0 8px 0;
+      font-size:26px;
+      letter-spacing:0.2px;
+    }
+    p{
+      margin:0 0 18px 0;
+      color:var(--muted);
+      line-height:1.5;
+    }
+
+    .meta{
+      display:flex;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+    .chip{
+      background:var(--glass);
+      padding:10px 12px;
+      border-radius:12px;
+      font-size:13px;
+      color: #cfeee0;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.45);
+    }
+
+    .btns{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .btn{
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015));
+      border:1px solid rgba(255,255,255,0.04);
+      padding:10px 14px;
+      border-radius:12px;
+      color: #e6f7ee;
+      cursor:pointer;
+      font-weight:600;
+      transition: transform .12s ease, box-shadow .12s ease;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+    .btn:hover{ transform:translateY(-4px); box-shadow: 0 10px 30px rgba(2,6,23,0.5) }
+    .primary{
+      background: linear-gradient(90deg, rgba(34,197,94,0.16), rgba(34,197,94,0.08));
+      border:1px solid rgba(34,197,94,0.18);
+      color: white;
+      padding:12px 18px;
+    }
+
+    /* small sparkle animation */
+    .sparkle{
+      position:absolute;
+      width:10px;
+      height:10px;
+      border-radius:50%;
+      background:rgba(255,255,255,0.9);
+      filter: blur(1px);
+      opacity:0;
+      animation: sparkle 1.4s linear infinite;
+      pointer-events:none;
+    }
+    @keyframes sparkle{
+      0%{transform:scale(.6) translateY(0); opacity:0}
+      10%{opacity:1}
+      70%{opacity:.2}
+      100%{transform:scale(.2) translateY(-18px); opacity:0}
+    }
+
+    /* responsive */
+    @media (max-width:640px){
+      .card{padding:22px; gap:18px; flex-direction:column; align-items:center; text-align:center;}
+      .left{width:160px;height:160px}
+      .orb{width:140px;height:140px}
+      .check-svg{width:90px;height:90px}
+    }
+
+    /* subtle pulse for the orb */
+    @keyframes orb-pulse{
+      0%{transform:scale(1)}
+      50%{transform:scale(1.03)}
+      100%{transform:scale(1)}
+    }
+    .orb{ animation: orb-pulse 4s ease-in-out infinite; }
+  </style>
+</head>
+<body>
+  <div class="card" role="status" aria-live="polite">
+    <canvas class="confetti-canvas" id="confetti"></canvas>
+
+    <div class="left" aria-hidden="false">
+      <svg class="ring" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0" stop-color="rgba(34,197,94,0.18)"/>
+            <stop offset="1" stop-color="rgba(34,197,94,0.06)"/>
+          </linearGradient>
+        </defs>
+        <circle cx="110" cy="110" r="96" stroke="url(#g1)" stroke-width="6" fill="none" stroke-linecap="round" stroke-dasharray="8 18"/>
+      </svg>
+
+      <div class="orb" id="orb">
+        <!-- checkmark -->
+        <svg class="check-svg" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle class="check-circle" cx="60" cy="60" r="46"></circle>
+          <path class="check-path" d="M40 62 L54 76 L80 46"></path>
+        </svg>
+      </div>
+
+      <!-- decorative sparkles -->
+      <div class="sparkle" style="left:18px; top:6px; animation-delay:0.3s"></div>
+      <div class="sparkle" style="left:190px; top:40px; animation-delay:0.8s"></div>
+      <div class="sparkle" style="left:150px; top:140px; animation-delay:1.2s"></div>
+    </div>
+
+    <div class="right">
+      <h1>Order Successful 🎉</h1>
+      <p>Shukriya! aapka order safalta-poorvak place ho gaya hai. Hum jaldi se processing shuru kar denge — confirmation email bhej diya gaya hai.</p>
+
+      <div class="meta" aria-hidden="true">
+        <div class="chip">Order #<strong>HT-458203</strong></div>
+        <div class="chip">Total: <strong>₹1,249</strong></div>
+        <div class="chip">Payment: <strong>UPI</strong></div>
+      </div>
+
+      <div class="btns">
+        <a class="btn primary" href="#" id="trackBtn">
+          Track Order
+          <svg width="14" height="14" viewBox="0 0 24 24" style="opacity:.95"><path fill="white" d="M10 17l5-5-5-5v10z"></path></svg>
+        </a>
+        <a class="btn" href="#" id="homeBtn">Continue Shopping</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // confetti simple engine
+    (function(){
+      const canvas = document.getElementById('confetti');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+
+      function resize(){
+        W = canvas.width = canvas.clientWidth;
+        H = canvas.height = canvas.clientHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      function rand(min,max){ return Math.random()*(max-min)+min; }
+      const colors = ['#22c55e','#60a5fa','#a78bfa','#f97316','#fb7185'];
+
+      function createParticle(x,y){
+        return {
+          x, y,
+          vx: rand(-1.8,1.8),
+          vy: rand(-6,-2),
+          size: rand(6,12),
+          rot: rand(0,360),
+          vr: rand(-8,8),
+          color: colors[Math.floor(Math.random()*colors.length)],
+          life: 0,
+          ttl: rand(70,110)
+        };
+      }
+
+      function emitBurst(cx,cy,amount){
+        for(let i=0;i<amount;i++) particles.push(createParticle(cx + rand(-10,10), cy + rand(-10,10)));
+      }
+
+      function update(){
+        ctx.clearRect(0,0,W,H);
+        for(let i=particles.length-1;i>=0;i--){
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.14; // gravity
+          p.rot += p.vr;
+          p.life++;
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot * Math.PI/180);
+          ctx.fillStyle = p.color;
+          ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+          ctx.restore();
+          if(p.y > H + 40 || p.life > p.ttl) particles.splice(i,1);
+        }
+        requestAnimationFrame(update);
+      }
+
+      // initial burst near the left orb center
+      const orbRect = document.getElementById('orb').getBoundingClientRect();
+      function launchConfetti(){
+        const parentRect = document.querySelector('.card').getBoundingClientRect();
+        const cx = (orbRect.left - parentRect.left) + orbRect.width/2;
+        const cy = (orbRect.top - parentRect.top) + orbRect.height/2;
+        emitBurst(cx, cy, 36);
+        // repeating small bursts
+        setTimeout(()=>emitBurst(cx-20, cy+10, 18), 250);
+        setTimeout(()=>emitBurst(cx+20, cy+4, 18), 520);
+      }
+
+      // start
+      update();
+      launchConfetti();
+
+      // tie to buttons: show another mini burst on click
+      document.getElementById('trackBtn').addEventListener('click', function(e){
+        e.preventDefault();
+        launchConfetti();
+        // simulate navigation
+        this.blur();
+      });
+      document.getElementById('homeBtn').addEventListener('click', function(e){
+        e.preventDefault();
+        launchConfetti();
+        this.blur();
+      });
+    })();
+
+    // accessible focus flashing for users
+    (function(){
+      const track = document.getElementById('trackBtn');
+      track.addEventListener('keydown', e=>{
+        if(e.key === 'Enter' || e.key === ' ') {
+          track.click();
+        }
+      });
+    })();
+
+    // OPTIONAL: set sample order number / total from URL params (if you want to demo)
+    (function(){
+      const params = new URLSearchParams(location.search);
+      const order = params.get('order');
+      const total = params.get('total');
+      if(order){
+        document.querySelector('.chip strong').textContent = order;
+      }
+      if(total){
+        document.querySelectorAll('.chip strong')[1].textContent = total;
+      }
+    })();
+  </script>
+</body>
+</html>

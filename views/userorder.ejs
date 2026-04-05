@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Order</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+
+        .title {
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #222;
+        }
+
+        .order-info p {
+            font-size: 16px;
+            margin: 8px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        table th {
+            background: #4CAF50;
+            color: #fff;
+        }
+
+        .total {
+            text-align: right;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 18px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .back-btn {
+            background: #4CAF50;
+            color: #fff;
+        }
+
+        .back-btn:hover {
+            background: #3a8f40;
+        }
+
+        .cancel-btn {
+            background: #ff4444;
+            color: #fff;
+        }
+
+        .cancel-btn:hover {
+            background: #cc0000;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="title">Your Order Details</div>
+
+    <div class="order-info">
+<% data.forEach((entry)=>
+{%>
+
+        <p><strong>Order ID:</strong><%= entry.oid%></p>
+        <p><strong>Date:</strong> <%= entry.odate%></p>
+        <p><strong>Name:</strong><%= entry.fname%><%=entry.lastname%></p>
+        <p><strong>Email:</strong> <%= uemail%></p>
+<%} ) %>
+
+
+    </div>
+
+    <table>
+        <tr>
+            <th>Product</th>
+            
+           <th>Total</th>
+        </tr>
+
+       </tr>
+<% data.forEach((entry)=>
+{%>
+<tr class="table-primary">
+<td><%=entry.pname%></td>
+<td><%=entry.amount %></td>
+</tr>
+<%} ) %>
+    </table>
+
+<%var i=1;
+var s=0;
+%>                                  </li>
+<% data.forEach((entry)=>
+{%>
+  s=s+entry.amount;
+%>       
+                         
+<% 
+i++
+}); %>
+
+    <div class="total">Grand Total:  <%=s%></div>
+
+    <div class="status">Order Status: Confirmed ✔</div>
+
+    <div class="btn-container">
+        <a href="index" class="btn back-btn">Back to Home</a>
+<% if(data && data.length){ %>
+<a href="cancelorder?orderid=<%= data[0].oid %>" class="btn cancel-btn">
+    Cancel Order
+</a>
+<% } %>
+        
+    </div>
+
+</div>
+
+</body>
+</html>
