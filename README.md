@@ -30,11 +30,11 @@ https://bridal-convert-cole-indicating.trycloudflare.com
 
 ### Products Page
 
-![Products](./screenshots/products.png)
+![Products](Ecommerce/screenshots/products.png)
 
 ### Categories Section
 
-![Categories](./screenshots/categories.png)
+![Categories](Ecommerce/screenshots/categories.png)
 
 ------------------------------------------------------------------------
 
