@@ -26,7 +26,7 @@ https://bridal-convert-cole-indicating.trycloudflare.com
 
 ### Home Page
 
-![Home Page](./screenshots/home.png)
+![Home Page](Ecommerce/screenshots/home.png)
 
 ### Products Page
 
